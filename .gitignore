@@ -1,0 +1,18 @@
+# Ignore SQLite database
+db.sqlite
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore virtual environment
+.env/
+venv/
+
+# Ignore environment variable files
+*.env
+
+# Ignore all migrations except the `__init__.py`
+migrations/
+!migrations/__init__.py
