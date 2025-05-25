@@ -1,0 +1,48 @@
+{% extends 'main/base.html' %}
+
+    {% block title %}
+        {{ user.username }}'s Profile
+    {% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ user.username }}'s Profile</h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">User Information</h5>
+            <p class="card-text">
+                Email: {{ user.email }}<br>
+                Date of Birth: {{ user.customer.birth }}
+            </p>
+        </div>
+    </div>
+
+    <h2>Requested Services</h2>
+    <div class="row">
+        {% for requested in requested_services %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ requested.service.name }}</h5>
+                    <p class="card-text">
+                        Field: {{ requested.service.field }}<br>
+                        Company: <a href="{% url 'company_profile' requested.service.company.user.username %}">
+                            {{ requested.service.company.user.username }}
+                        </a><br>
+                        Address: {{ requested.address }}<br>
+                        Hours: {{ requested.hours }}<br>
+                        Total Cost: ${{ requested.total_cost }}<br>
+                        Requested on: {{ requested.date_requested|date:"F j, Y" }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>No services have been requested yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
