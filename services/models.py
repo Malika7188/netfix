@@ -1,7 +1,4 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from users.models import Company, Customer
 
@@ -32,3 +29,19 @@ class Service(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class RequestedService(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    address = models.TextField()
+    hours = models.DecimalField(decimal_places=2, max_digits=100)
+    date_requested = models.DateTimeField(auto_now_add=True)
+    total_cost = models.DecimalField(decimal_places=2, max_digits=100)
+
+    def save(self, *args, **kwargs):
+        self.total_cost = self.hours * self.service.price_hour
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.customer.user.username} - {self.service.name}"
