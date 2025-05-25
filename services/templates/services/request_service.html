@@ -5,7 +5,14 @@
 
 {% block content %}
     <p class="title">Service Request Details</p>
+    <div class="service-info">
+        <h2>{{ service.name }}</h2>
+        <p>Price per hour: ${{ service.price_hour }}</p>
+        <p>Field: {{ service.field }}</p>
+    </div>
     <form method="POST">
-        <button type="submit">Request</button>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Request Service</button>
     </form>
 {% endblock %}
