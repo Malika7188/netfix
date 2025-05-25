@@ -1,0 +1,48 @@
+{% extends 'main/base.html' %}
+
+    {% block title %}
+        {{ user.username }}'s Profile
+    {% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ user.username }}'s Profile</h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Company Information</h5>
+            <p class="card-text">
+                Email: {{ user.email }}<br>
+                Field of Work: {{ company.field }}<br>
+                Rating: {{ company.rating }}/5
+            </p>
+        </div>
+    </div>
+
+    <h2>Services Offered</h2>
+    <div class="row">
+        {% for service in services %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ service.name }}</h5>
+                    <p class="card-text">{{ service.description|truncatewords:30 }}</p>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            Field: {{ service.field }}<br>
+                            Price per hour: ${{ service.price_hour }}<br>
+                            Created: {{ service.date|date:"F j, Y" }}
+                        </small>
+                    </p>
+                    <a href="{% url 'index' service.id %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>No services have been created yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
