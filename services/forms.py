@@ -1,6 +1,7 @@
 from django import forms
 
 from users.models import Company
+from .models import Service, RequestedService
 
 
 class CreateNewService(forms.Form):
@@ -24,4 +25,11 @@ class CreateNewService(forms.Form):
 
 
 class RequestServiceForm(forms.Form):
-    pass
+    address = forms.CharField(widget=forms.Textarea, label='Service Address')
+    hours = forms.DecimalField(
+        decimal_places=2, max_digits=5, min_value=0.00, label='Hours Needed')
+
+    def __init__(self, *args, **kwargs):
+        super(RequestServiceForm, self).__init__(*args, **kwargs)
+        self.fields['address'].widget.attrs['placeholder'] = 'Enter Service Address'
+        self.fields['hours'].widget.attrs['placeholder'] = 'Enter Hours Needed'
