@@ -10,7 +10,8 @@ class User(AbstractUser):
 
 
 class Customer(models.Model):
-    pass
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # Ensure this exists
+    birth = models.DateField(null=True, blank=True)  # Ensure this exists
 
 
 class Company(models.Model):
