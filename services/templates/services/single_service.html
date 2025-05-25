@@ -8,7 +8,9 @@
         <h5>by <a href="/company/{{service.company.user}}">{{service.company.user}}</a></h5>
     </div>
     <h3>{{service.field}}</h3>
+    <h4>Date: {{service.date}}</h4>
     <p style="text-align: left;">{{service.description}}</p>
+
     {% if request.user.is_customer %}
         <a href="/services/{{service.id}}/request_service/" class="like_button">Request Service</a>
     {% endif %}
