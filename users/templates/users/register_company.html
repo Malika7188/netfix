@@ -4,10 +4,124 @@
 {%endblock %}
 
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        {{form}}
-        <span class="helptext">Choose Field Above</span>
-        <button type="submit" name="register">Register</button>
-    </form>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Company Registration</h1>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="POST" class="registration-form">
+                {% csrf_token %}
+                
+                <!-- Company Information Section -->
+                <div class="form-section mb-4">
+                    <h4 class="section-header">Company Information</h4>
+                    <div class="form-group">
+                        <label class="form-label">Company Name</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="error-message">{{ form.username.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Service Field</label>
+                        {{ form.field }}
+                        {% if form.field.errors %}
+                            <div class="error-message">{{ form.field.errors }}</div>
+                        {% endif %}
+                        <small class="form-text text-muted">{{ form.field.help_text }}</small>
+                    </div>
+                </div>
+
+                <!-- Contact Information Section -->
+                <div class="form-section mb-4">
+                    <h4 class="section-header">Contact Information</h4>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="error-message">{{ form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Security Section -->
+                <div class="form-section mb-4">
+                    <h4 class="section-header">Security</h4>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}
+                            <div class="error-message">{{ form.password1.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password</label>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                            <div class="error-message">{{ form.password2.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Register Company</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .registration-form {
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .section-header {
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .error-message {
+        color: #e74c3c;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #bdc3c7;
+        padding: 0.5rem;
+    }
+
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        border-color: #3498db;
+        padding: 0.5rem 2rem;
+    }
+
+    .btn-primary:hover {
+        background-color: #2980b9;
+        border-color: #2980b9;
+    }
+</style>
 {% endblock %}
