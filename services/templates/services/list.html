@@ -3,16 +3,72 @@
     Services List
 {% endblock %}
 {% block content %}
-    <p class="title">Services</p>
-    {% if user.is_company %}
-        <a class="create_service" href="/services/create"> Create Service</a>
-    {% endif %}
-    <div class='services_list'>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="title">Services</h1>
+        <div>
+            {% if user.is_company %}
+                <a class="btn btn-primary" href="/services/create">Create Service</a>
+            {% endif %}
+            <a class="btn btn-secondary" href="{% url 'most_requested_services' %}">View Most Requested</a>
+        </div>
+    </div>
+
+    <div class="row">
         {% if services %}
-            {% for service in services.all %}
+            {% for service in services %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ service.name }}</h5>
+                            <p class="card-text">{{ service.description|truncatewords:30 }}</p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    Field: {{ service.field }}<br>
+                                    Price per hour: ${{ service.price_hour }}<br>
+                                    Company: <a href="{% url 'company_profile' service.company.user.username %}">
+                                        {{ service.company.user.username }}
+                                    </a><br>
+                                    Created: {{ service.date|date:"F j, Y" }}
+                                </small>
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{% url 'index' service.id %}" class="btn btn-primary">View Details</a>
+                                {% if user.is_authenticated and user.is_customer %}
+                                    <a href="{% url 'request_service' service.id %}" class="btn btn-success">Request Service</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
         {% else %}
-            <h2>Sorry No services available yet</h2>
+            <div class="col-12">
+                <div class="alert alert-info">
+                    No services available yet.
+                </div>
+            </div>
         {% endif %}
-     </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        padding: 20px;
+    }
+    .card {
+        height: 100%;
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .btn {
+        margin: 5px;
+    }
+    .title {
+        margin-bottom: 20px;
+    }
+</style>
 {% endblock %}
