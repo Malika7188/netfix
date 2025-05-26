@@ -32,3 +32,8 @@ class RequestedService(models.Model):
     service_time = models.DecimalField(max_digits=5, decimal_places=2)
     total_cost = models.DecimalField(max_digits=8, decimal_places=2)
     date_requested = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        # Automatically calculate the total cost based on service time and price per hour
+        self.total_cost = self.service.price_per_hour * self.service_time
+        super().save(*args, **kwargs)
