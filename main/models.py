@@ -24,3 +24,11 @@ class Service(models.Model):
 
     def __str__(self):
         return self.name
+    
+class RequestedService(models.Model):
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='requests')
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='requested_services')
+    address = models.CharField(max_length=255)
+    service_time = models.DecimalField(max_digits=5, decimal_places=2)
+    total_cost = models.DecimalField(max_digits=8, decimal_places=2)
+    date_requested = models.DateTimeField(auto_now_add=True)
