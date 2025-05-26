@@ -37,3 +37,6 @@ class RequestedService(models.Model):
         # Automatically calculate the total cost based on service time and price per hour
         self.total_cost = self.service.price_per_hour * self.service_time
         super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return f"{self.service.name} requested by {self.customer.username}"
