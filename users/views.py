@@ -2,16 +2,28 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.views.generic import CreateView, TemplateView
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 
 from .forms import CustomerSignUpForm, CompanySignUpForm, UserLoginForm
 from .models import User, Company, Customer
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('/')
     return render(request, 'users/register.html')
 
 
-class CustomerSignUpView(CreateView):
+class AnonymousUserMixin(UserPassesTestMixin):
+    def test_func(self):
+        return not self.request.user.is_authenticated
+
+    def handle_no_permission(self):
+        return redirect('/')
+
+
+class CustomerSignUpView(AnonymousUserMixin, CreateView):
     model = User
     form_class = CustomerSignUpForm
     template_name = 'users/register_customer.html'
@@ -26,7 +38,7 @@ class CustomerSignUpView(CreateView):
         return redirect('/')
 
 
-class CompanySignUpView(CreateView):
+class CompanySignUpView(AnonymousUserMixin, CreateView):
     model = User
     form_class = CompanySignUpForm
     template_name = 'users/register_company.html'
@@ -42,6 +54,9 @@ class CompanySignUpView(CreateView):
 
 
 def LoginUserView(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+        
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
