@@ -12,7 +12,7 @@
   - **Customers** can sign up using email, username, and birth date.
   - **Companies** register with a specified service field specialization.
 - **Validation:**
-  - Age verification (minimum 5+ years).
+  - Age verification (minimum 18+ years).
   - Unique email enforcement.
   - Secure password handling.
 
