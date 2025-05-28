@@ -4,9 +4,11 @@ from django.views.generic import CreateView, TemplateView
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 
 from .forms import CustomerSignUpForm, CompanySignUpForm, UserLoginForm
 from .models import User, Company, Customer
+from services.models import RequestedService
 
 
 def register(request):
@@ -74,3 +76,18 @@ def LoginUserView(request):
     else:
         form = UserLoginForm()
     return render(request, 'users/login.html', {'form': form})
+
+
+@login_required
+def company_requested_services(request):
+    if not request.user.is_company:
+        return redirect('/')
+        
+    company = request.user.company
+    requested_services = RequestedService.objects.filter(
+        service__company=company
+    ).order_by('-date_requested')
+    
+    return render(request, 'users/company_requested_services.html', {
+        'requested_services': requested_services
+    })
