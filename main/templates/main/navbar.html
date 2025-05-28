@@ -1,8 +1,8 @@
 <nav class="navbar">
-    <ul>
+    <ul class="nav-left">
         <li><a href="/">Home</a></li>
         <li>
-            <a href="/services/">Services</a>
+            <a href="/services/">Available Services</a>
             <ul>
                 <li><a href="/services/air-conditioner">Air Conditioner</a></li>
                 <li><a href="/services/carpentry">Carpentry</a></li>
@@ -17,6 +17,11 @@
                 <li><a href="/services/water-heaters">Water Heaters</a></li>
             </ul>
         </li>
+        {% if user.is_authenticated %}
+        <li><a href="/services/create">Create Service</a></li>
+        {% endif %}
+    </ul>
+    <ul class="nav-right">
         {% if user.is_authenticated %}
             {% if user.is_company %}
                 <li><a href="/company/{{ user.username }}/">Profile</a></li>
