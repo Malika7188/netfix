@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<h2>Requested Services</h2>
+{% if requested_services %}
+    <div class="services-list">
+    {% for request in requested_services %}
+        <div class="service-request">
+            <h3>{{ request.service.name }}</h3>
+            <p>Customer: {{ request.customer.user.username }}</p>
+            <p>Address: {{ request.address }}</p>
+            <p>Hours: {{ request.hours }}</p>
+            <p>Date Requested: {{ request.date_requested }}</p>
+            <p>Total Cost: ${{ request.total_cost }}</p>
+        </div>
+    {% endfor %}
+    </div>
+{% else %}
+    <p>No services have been requested yet.</p>
+{% endif %}
+{% endblock %}

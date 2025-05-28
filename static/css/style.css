@@ -189,31 +189,45 @@ button:hover {
   width: 95%;
   margin: 0 auto;
   margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .navbar ul {
   position: relative;
   display: flex;
-  flex: 1 1 auto;
   margin: 0;
   padding: 0 30px;
   list-style-type: none;
 }
-.navbar ul li:not(:last-child) {
+
+.nav-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+
+/* Override the existing margin for the last child in nav-right */
+.nav-right li:not(:last-child) {
   margin-right: 40px;
 }
+
+/* Keep the existing hover and dropdown styles */
 .navbar ul li {
   border: 2px solid transparent;
   border-radius: 5px;
   padding: 10px;
   transition: background 0.2s;
+  white-space: nowrap;
 }
-.navbar ul li a {
-  color: #ec2f00;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: color 0.2s;
-}
+
+/* Ensure dropdowns work properly with new layout */
 .navbar ul li ul {
   visibility: hidden;
   opacity: 0;
@@ -227,7 +241,16 @@ button:hover {
   border-bottom: 2px solid #f89329;
   border-radius: 5px;
   transition: opacity 0.2s, visibility 0.2s;
+  left: 0;  /* Ensure dropdown aligns with parent */
 }
+
+/* Ensure the Services dropdown remains visible */
+.navbar .nav-left > li:hover ul {
+  visibility: visible;
+  opacity: 1;
+  z-index: 1000;
+}
+
 .navbar ul li ul li {
   margin: -2px 0 0 -2px;
   width: calc(100% - 20px);
